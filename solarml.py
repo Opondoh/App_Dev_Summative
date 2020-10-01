@@ -1,6 +1,7 @@
 from sklearn import linear_model
 import pandas as pd
 from sklearn.model_selection import train_test_split
+import pickle
 
 #IMPORT CSV FILES
 #dSolar_1 = pd.read_csv('solar_farm.csv')
@@ -59,3 +60,13 @@ y_pred = lm.predict(X_test)
 #connect predictions with actual banking crisis values
 for i in range(10):
     print(y_test[i], y_pred[i])
+
+# save the model to disk
+fileObj = open('data.obj', 'wb')
+pickle.dump(lm,fileObj)
+fileObj.close()
+
+fileObj = open('data.obj', 'rb')
+y_pred = lm.predict(X_test)
+fileObj.close()
+print(print(y_pred[0:7]))
