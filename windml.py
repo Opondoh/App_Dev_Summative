@@ -45,6 +45,11 @@ y_pred_wind = lm.predict(X_test)
 for i in range(10):
     print(y_test[i], y_pred_wind[i])
 
+#add predictions column to the dataFrame
+predictions = pd.DataFrame(y1_pred)
+dWind_2['Wind_predictions'] = predictions
+dWind_2.head(10)
+
 # save the model to disk
 filename = 'wind_model'
 outfile = open(filename,'wb')
