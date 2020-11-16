@@ -1,6 +1,7 @@
 from sklearn import linear_model
 import pandas as pd
 from sklearn.model_selection import train_test_split
+import pickle
 
 #IMPORT CSV FILES
 dWind_2 = pd.read_csv('wind_generation_data.csv')
@@ -43,3 +44,16 @@ y_pred_wind = lm.predict(X_test)
 #connect predictions with actual banking crisis values
 for i in range(10):
     print(y_test[i], y_pred_wind[i])
+
+# save the model to disk
+filename = 'wind_model'
+outfile = open(filename,'wb')
+pickle.dump(model, outfile)
+outfile.close()
+
+# load the model from disk
+infile = open(filename,'rb')
+wmodel_frm_disk = pickle.load(infile)
+result = wmodel_frm_disk.score(X_test, y_test)
+infile.close()
+print(result)
