@@ -19,6 +19,6 @@ for i in range(10):
     print(y_test[i], y_pred_solar[i])
 
 #add predictions column to the dataFrame
-Spredictions = pd.DataFrame(y_pred)
+predictions = pd.DataFrame(y_pred)
 dSolar_2['Solar_predictions'] = predictions
 dSolar_2.head(10)
