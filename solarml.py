@@ -4,9 +4,7 @@ from sklearn.model_selection import train_test_split
 import pickle
 
 #IMPORT CSV FILES
-#dSolar_1 = pd.read_csv('solar_farm.csv')
 dSolar_2 = pd.read_csv('solar_generation_data.csv')
-#dWind_1 = pd.read_csv('wind_farm.csv')
 
 #DATA EXPLORATION AND CLEANING
 #view the number of rows and columns of the two main data sets
@@ -51,22 +49,25 @@ lm = linear_model.LinearRegression()
 model = lm.fit(X_train,y_train)
 
 #MAKE PREDICITONS
-y_pred = lm.predict(X_test)
-print(y_pred[0:5]) # print the first 5 predictions
+y_pred_solar = lm.predict(X_test)
+print(y_pred_solar[0:5]) # print the first 5 predictions
 
 #side by side of actual values and predicated values
-y_pred = lm.predict(X_test)
+y_pred_solar = lm.predict(X_test)
 
 #connect predictions with actual power output values
 for i in range(10):
-    print(y_test[i], y_pred[i])
+    print(y_test[i], y_pred_solar[i])
 
 # save the model to disk
-fileObj = open('data.obj', 'wb')
-pickle.dump(lm,fileObj)
-fileObj.close()
+filename = 'solar_model'
+outfile = open(filename,'wb')
+pickle.dump(model, outfile)
+outfile.close()
 
-fileObj = open('data.obj', 'rb')
-y_pred = lm.predict(X_test)
-fileObj.close()
-print(print(y_pred[0:7]))
+# load the model from disk
+infile = open(filename,'rb')
+model_frm_disk = pickle.load(infile)
+result = model_frm_disk.score(X_test, y_test)
+infile.close()
+print(result)

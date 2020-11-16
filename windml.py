@@ -3,8 +3,6 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 
 #IMPORT CSV FILES
-#dSolar_1 = pd.read_csv('solar_farm.csv')
-#dWind_1 = pd.read_csv('wind_farm.csv')
 dWind_2 = pd.read_csv('wind_generation_data.csv')
 
 #DATA EXPLORATION AND CLEANING
@@ -36,12 +34,12 @@ lm = linear_model.LinearRegression()
 model = lm.fit(X_train,y_train)
 
 #MAKE PREDICITONS
-y_pred = lm.predict(X_test)
-print(y_pred[0:5]) # print the first 5 predictions
+y_pred_wind = lm.predict(X_test)
+print(y_pred_wind[0:5]) # print the first 5 predictions
 
 #side by side of actual values and predicated values
-y_pred = lm.predict(X_test)
+y_pred_wind = lm.predict(X_test)
 
 #connect predictions with actual banking crisis values
 for i in range(10):
-    print(y_test[i], y_pred[i])
+    print(y_test[i], y_pred_wind[i])
