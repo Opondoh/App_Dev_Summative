@@ -115,4 +115,25 @@ weather_data['solar'] = solar
 weather_data['cloud_cover'] = cloud_cover
 weather_data['rainfall'] = rainfall
 
-print(weather_data.head())
+#print(weather_data.head())
+
+#predict solar power output
+solar_vals = weather_data.drop(['date', 'speed', 'direction'], axis = 1).values 
+wind_vals = weather_data.drop(['date','temp_hi', 'temp_low', 'solar', 'cloud_cover', 'rainfall'], axis = 1).values
+
+#load models from disk
+
+solar_model = pickle.load(open('solar_model.pkl', 'rb'))
+s_power_predictions = solar_model.predict(solar_vals)
+
+predictions_s = pd.DataFrame(s_power_predictions)
+weather_data['solar_predictions'] = predictions_s
+print(weather_data.head(10))
+
+#load wind model from disk
+wind_model = pickle.load(open("wind_model.pkl", 'rb'))
+w_power_predictions = wind_model.predict(wind_vals)
+
+predictions_w = pd.DataFrame(w_power_predictions)
+weather_data['wind_predictions'] = predictions_w
+print(weather_data.head(10))
