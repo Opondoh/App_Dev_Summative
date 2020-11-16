@@ -57,7 +57,7 @@ print(y_pred[0:5]) # print the first 5 predictions
 #side by side of actual values and predicated values
 y_pred = lm.predict(X_test)
 
-#connect predictions with actual banking crisis values
+#connect predictions with actual power output values
 for i in range(10):
     print(y_test[i], y_pred[i])
 
