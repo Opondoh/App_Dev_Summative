@@ -8,19 +8,19 @@ dWind_2 = pd.read_csv('wind_generation_data.csv')
 
 #DATA EXPLORATION AND CLEANING
 #view the number of rows and columns of the two main data sets
-print(dWind_2.shape)
+dWind_2.shape
 
 #view first five rows form the two data sets
-print(dWind_2.head())
+dWind_2.head()
 
 #confirm all column names for solar data
-print(dWind_2.columns)
+dWind_2.columns
 
 #check column data types
-print(dWind_2.info())
+dWind_2.info()
 
 #check for any missing values
-print(dWind_2.isnull().sum())
+dWind_2.isnull().sum()
 
 #ML MODEL USING SOLAR DATA
 #split data into training and test sets
@@ -35,30 +35,29 @@ lm = linear_model.LinearRegression()
 model = lm.fit(X_train,y_train)
 
 #MAKE PREDICITONS
-y_pred_wind = lm.predict(X_test)
-print(y_pred_wind[0:5]) # print the first 5 predictions
+#y_pred_wind = lm.predict(X_test)
+#print(y_pred_wind[0:5]) # print the first 5 predictions
 
 #side by side of actual values and predicated values
-y_pred_wind = lm.predict(X_test)
+#y_pred_wind = lm.predict(X_test)
 
 #connect predictions with actual banking crisis values
-for i in range(10):
-    print(y_test[i], y_pred_wind[i])
+#for i in range(10):
+    #print(y_test[i], y_pred_wind[i])
 
 #add predictions column to the dataFrame
-predictions = pd.DataFrame(y1_pred)
-dWind_2['Wind_predictions'] = predictions
-dWind_2.head(10)
+#predictions = pd.DataFrame(y1_pred)
+#dWind_2['Wind_predictions'] = predictions
+#print(dWind_2.head(10))
 
 # save the model to disk
-filename = 'wind_model'
+filename = 'wind_model.pkl'
 outfile = open(filename,'wb')
 pickle.dump(model, outfile)
 outfile.close()
 
 # load the model from disk
-infile = open(filename,'rb')
-wmodel_frm_disk = pickle.load(infile)
-result = wmodel_frm_disk.score(X_test, y_test)
-infile.close()
+model_frm_disk = pickle.load(open(filename, 'rb'))
+result = model_frm_disk.score(X_test, y_test)
 print(result)
+

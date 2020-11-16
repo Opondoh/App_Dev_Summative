@@ -1,4 +1,5 @@
 #import os
+import pickle
 import requests
 import pandas as pd
 from datetime import datetime
@@ -8,8 +9,10 @@ from datetime import datetime
 #lat = 8.598084
 #lon = 53.556563
 
-url = "https://api.openweathermap.org/data/2.5/onecall?lat=8.598084&lon=53.556563&units=metric&exclude=hourly,current,minutely&appid=e7f11591b0d000f3b7d224113f8b1149"
-wind_data = requests.get(url).json()
+##WIND DATA
+
+url1 = "https://api.openweathermap.org/data/2.5/onecall?lat=8.598084&lon=53.556563&units=metric&exclude=hourly,current,minutely&appid=e7f11591b0d000f3b7d224113f8b1149"
+wind_data = requests.get(url1).json()
 #print(wind_data)
 
 #initiate empty columns
@@ -31,25 +34,26 @@ for weather in wind_data['daily']:
     direction.append(wd)
     
     num = num + 1
-#print([date, speed, direction])
+#print([date1, speed, direction])
 
 #add to empty dataframe
-w_df['date'] = date
+w_df['date1'] = date
 w_df['speed'] = speed
 w_df['direction'] = direction
 
 #convert timestamp to datetime and add Day plus Month columns
-w_df['Datetime'] = pd.to_datetime(w_df['date'], unit='s')
-w_df['Day'] = w_df['Datetime'].dt.day 
-w_df['Month'] = w_df['Datetime'].dt.month
+w_df['Datetime'] = pd.to_datetime(w_df['date1'], unit='s')
+#w_df['Day'] = w_df['Datetime'].dt.day 
+#w_df['Month'] = w_df['Datetime'].dt.month
 
 #set datetime as index
 w_df.set_index('Datetime', inplace = True)
-
 #print(w_df.head())
 
-url = "https://api.openweathermap.org/data/2.5/onecall?lat=-19.461907&lon=142.110216&units=metric&exclude=hourly,current,minutely&appid=e7f11591b0d000f3b7d224113f8b1149"
-solar_data = requests.get(url).json()
+##SOLAR DATA
+
+url2 = "https://api.openweathermap.org/data/2.5/onecall?lat=-19.461907&lon=142.110216&units=metric&exclude=hourly,current,minutely&appid=e7f11591b0d000f3b7d224113f8b1149"
+solar_data = requests.get(url2).json()
 #print(solar_data)
 
 #initiate empty columns
@@ -83,7 +87,7 @@ for weather in wind_data['daily']:
 #print([date, speed, direction])
 
 #add to empty dataframe
-s_df['date'] = date
+s_df['date2'] = date
 s_df['temp_hi'] = temp_hi
 s_df['temp_low'] = temp_low
 s_df['solar'] = solar
@@ -91,10 +95,24 @@ s_df['cloud_cover'] = cloud_cover
 s_df['rainfall'] = rainfall
 
 #convert timestamp to datetime and add Day plus Month columns
-s_df['Datetime'] = pd.to_datetime(w_df['date'], unit='s')
+s_df['Datetime'] = pd.to_datetime(s_df['date2'], unit='s')
 #s_df['Day'] = w_df['Datetime'].dt.day 
 #s_df['Month'] = w_df['Datetime'].dt.month
 
 #set datetime as index
 s_df.set_index('Datetime', inplace = True)
-print(s_df.head())
+#print(s_df.head())
+
+#merge wind data set to solar data set
+weather_data = pd.DataFrame()
+
+weather_data['date'] = date
+weather_data['speed'] = speed
+weather_data['direction'] = direction
+weather_data['temp_hi'] = temp_hi
+weather_data['temp_low'] = temp_low
+weather_data['solar'] = solar
+weather_data['cloud_cover'] = cloud_cover
+weather_data['rainfall'] = rainfall
+
+print(weather_data.head())

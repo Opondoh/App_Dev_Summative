@@ -70,9 +70,3 @@ outfile = open(filename,'wb')
 pickle.dump(model, outfile)
 outfile.close()
 
-# load the model from disk
-infile = open(filename,'rb')
-smodel_frm_disk = pickle.load(infile)
-result = smodel_frm_disk.score(X_test, y_test)
-infile.close()
-print(result)
